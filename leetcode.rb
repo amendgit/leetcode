@@ -195,4 +195,15 @@ def removeDuplicateMark()
 	end
 end
 
-exportToCSV()
+def extractShortName()
+	Dir["./solutions/*.md"].each do |filepath|
+		lines = File.read(filepath).lines
+		idx = lines[0][1..4]
+		i = 0; 
+		i += 1 while i < lines.length() and !lines[i].include?("https://leetcode.com/problems/")
+		lines[i] =~ /https:\/\/leetcode.com\/problems\/(.+)\/description\//
+		FileUtils.mv(filepath, "./solutions/#{idx}.#{$1}.md")
+	end
+end
+
+extractShortName()
